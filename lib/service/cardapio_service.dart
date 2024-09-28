@@ -6,4 +6,8 @@ class CardapioService {
   void inserirPrato(Cardapio prato) {
     pratos.add(prato);
   }
+
+  Cardapio retornarPratos(id){
+    return pratos[id];
+  }
 }

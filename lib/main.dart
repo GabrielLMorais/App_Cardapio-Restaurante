@@ -2,6 +2,10 @@ import 'package:app_cardapio_restaurante/model/cardapio.dart';
 import 'package:app_cardapio_restaurante/service/cardapio_service.dart';
 import 'package:app_cardapio_restaurante/view/cadastrar_view.dart';
 import 'package:app_cardapio_restaurante/view/cardapio_view.dart';
+import 'package:app_cardapio_restaurante/view/detalhes_view.dart';
+import 'package:app_cardapio_restaurante/view/login_view.dart';
+import 'package:app_cardapio_restaurante/view/pedido_view.dart';
+import 'package:app_cardapio_restaurante/view/senha_view.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -13,13 +17,13 @@ void main() {
 
   var srv = getIt<CardapioService>();
   srv.inserirPrato(
-    Cardapio('Haburguer de Carne', '', 'RS25,00',),
+    Cardapio('Haburguer de Carne', 'Tem Carne', 'R\$25,00', 'assets/imagens/hamburguer.png'),
   );
   srv.inserirPrato(
-    Cardapio('Pizza de frango', '', 'RS45,00'),
+    Cardapio('Pizza de frango', 'Tem Frango', 'R\$45,00', 'assets/imagens/pizzaf.png'),
   );
   srv.inserirPrato(
-    Cardapio('Coca-Cola', '', 'RS6,00'),
+    Cardapio('Coca-Cola', '', 'R\$6,00', ''),
   );
 
   runApp(
@@ -37,10 +41,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'cadastrar',
+      initialRoute: 'login',
       routes: {
+        'login': (context) => LoginView(),
         'cadastrar': (context) => CadastrarView(),
+        'senha': (context) => SenhaView(),
         'cardapio': (context) => CardapioView(),
+        'detalhes': (context) => DetalhesView(),
+        'pedido': (context) => PedidoView(),
       },
     );
   }

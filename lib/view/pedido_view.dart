@@ -1,17 +1,18 @@
 import 'package:app_cardapio_restaurante/service/cardapio_service.dart';
+import 'package:app_cardapio_restaurante/service/pedido_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 final CardapioService srv = GetIt.instance<CardapioService>();
 
-class CardapioView extends StatefulWidget {
-  const CardapioView({super.key});
+class PedidoView extends StatefulWidget {
+  const PedidoView({super.key});
 
   @override
-  State<CardapioView> createState() => _CardapioViewState();
+  State<PedidoView> createState() => _PedidoViewState();
 }
 
-class _CardapioViewState extends State<CardapioView> {
+class _PedidoViewState extends State<PedidoView> {
 
   @override
   Widget build(BuildContext context) {
