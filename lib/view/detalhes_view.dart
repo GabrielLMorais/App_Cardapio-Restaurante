@@ -103,7 +103,8 @@ class _DetalhesViewState extends State<DetalhesView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, 'pedido');
+          srv.adicionarPedido(idPrato);
+      Navigator.pushNamed(context, 'pedido');
         },
         child: Icon(Icons.shopping_cart),
       ),

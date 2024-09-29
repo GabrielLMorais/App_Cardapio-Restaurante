@@ -1,7 +1,5 @@
-import '../model/pedido.dart';
+import 'package:app_cardapio_restaurante/model/pedidoItem.dart';
 
 class PedidoService {
-  void pedirQuantidade() {
-    
-  }
+  List<PedidoItem> pedidos = [];
 }
