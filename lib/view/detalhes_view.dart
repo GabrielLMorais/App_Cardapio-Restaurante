@@ -1,4 +1,6 @@
+import 'package:app_cardapio_restaurante/model/pedidoItem.dart';
 import 'package:app_cardapio_restaurante/service/cardapio_service.dart';
+import 'package:app_cardapio_restaurante/view/pedido_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -103,8 +105,20 @@ class _DetalhesViewState extends State<DetalhesView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          var prato = srv.retornarPratos(idPrato);
+          var pedidoExistente = pedidoSrv.pedidos.firstWhere(
+            (item) => item.nome == prato.nome, 
+            orElse: () => PedidoItem(nome: prato.nome),
+          );
+          
+          if (pedidoSrv.pedidos.contains(pedidoExistente)) {
+            pedidoExistente.quantidade++;
+          } else {
+            pedidoSrv.pedidos.add(pedidoExistente);
+          }
+
           srv.adicionarPedido(idPrato);
-      Navigator.pushNamed(context, 'pedido');
+          Navigator.pushNamed(context, 'pedido');
         },
         child: Icon(Icons.shopping_cart),
       ),

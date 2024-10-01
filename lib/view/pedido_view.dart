@@ -1,8 +1,10 @@
-import 'package:app_cardapio_restaurante/service/cardapio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:app_cardapio_restaurante/service/cardapio_service.dart';
+import 'package:app_cardapio_restaurante/service/pedido_service.dart';
 
 final CardapioService srv = GetIt.instance<CardapioService>();
+final PedidoService pedidoSrv = PedidoService();
 
 class PedidoView extends StatefulWidget {
   const PedidoView({super.key});
@@ -17,7 +19,6 @@ class _PedidoViewState extends State<PedidoView> {
   @override
   void initState() {
     super.initState();
-    // Recuperar pedidos salvos ao iniciar a tela
     _pedidos = srv.retornarPedidosSalvos();
   }
 
@@ -25,19 +26,27 @@ class _PedidoViewState extends State<PedidoView> {
     double total = 0;
     for (var pratoId in _pedidos) {
       var prato = srv.pratos[pratoId];
-      total += double.tryParse(prato.preco.replaceAll('R\$', '').replaceAll(',', '.')) ?? 0;
+      int quantidade = pedidoSrv.pedidos.firstWhere((item) => item.nome == prato.nome).quantidade;
+      total += (double.tryParse(prato.preco.replaceAll('R\$', '').replaceAll(',', '.')) ?? 0) * quantidade;
     }
     return 'R\$ ${total.toStringAsFixed(2).replaceAll('.', ',')}';
+  }
+
+  void _atualizarQuantidade(String nomePrato, int quantidade) {
+    setState(() {
+      var pedido = pedidoSrv.pedidos.firstWhere((item) => item.nome == nomePrato);
+      pedido.quantidade += quantidade;
+      if (pedido.quantidade < 1) {
+        pedido.quantidade = 1; // Impede que a quantidade seja menor que 1
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Level Up Restaurantes',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: Text('Level Up Restaurantes', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.purple,
         automaticallyImplyLeading: false,
         actions: [
@@ -61,7 +70,7 @@ class _PedidoViewState extends State<PedidoView> {
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Alinha o texto à esquerda
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Meus Pedidos',
@@ -71,13 +80,15 @@ class _PedidoViewState extends State<PedidoView> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20), // Espaço entre o título e a lista de pedidos
-            Expanded( // Expandir a lista para ocupar o espaço restante
+            SizedBox(height: 20),
+            Expanded(
               child: ListView.builder(
                 itemCount: _pedidos.length,
                 itemBuilder: (context, index) {
                   int pratoId = _pedidos[index];
                   var prato = srv.pratos[pratoId];
+                  var pedido = pedidoSrv.pedidos.firstWhere((item) => item.nome == prato.nome);
+
                   return Card(
                     margin: EdgeInsets.only(bottom: 10),
                     child: Row(
@@ -88,7 +99,7 @@ class _PedidoViewState extends State<PedidoView> {
                             bottomLeft: Radius.circular(14),
                           ),
                           child: Container(
-                            height: 70,
+                            height: 110,
                             width: 70,
                             margin: EdgeInsets.fromLTRB(1, 0, 0, 0),
                             child: Image.asset(
@@ -99,10 +110,38 @@ class _PedidoViewState extends State<PedidoView> {
                         ),
                         Expanded(
                           child: ListTile(
-                            title: Text(prato.nome, style: TextStyle(fontSize: 20)),
-                            subtitle: Text(
-                              srv.pratos[index].preco,
-                              style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+                            title: Text(
+                              prato.nome,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Preço: ${prato.preco}', // Preço fixo do prato
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.remove),
+                                      onPressed: () {
+                                        _atualizarQuantidade(prato.nome, -1);
+                                      },
+                                    ),
+                                    Text(
+                                      '${pedido.quantidade}',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: () {
+                                        _atualizarQuantidade(prato.nome, 1);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                             trailing: IconButton(
                               icon: Icon(Icons.delete),
@@ -110,6 +149,7 @@ class _PedidoViewState extends State<PedidoView> {
                                 setState(() {
                                   _pedidos.removeAt(index);
                                   srv.removerPedido(pratoId);
+                                  pedidoSrv.pedidos.removeWhere((item) => item.nome == prato.nome);
                                 });
                               },
                             ),
@@ -122,24 +162,42 @@ class _PedidoViewState extends State<PedidoView> {
               ),
             ),
             Container(
-            padding: EdgeInsets.fromLTRB(20,20,20,42),
-            child: Text(
-              'Total: ${_calcularPrecoTotal()}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 42),
+              child: Text(
+                'Total: ${_calcularPrecoTotal()}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
             ),
-          ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, 'cardapio');
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              setState(() {
+                _pedidos.clear();
+                pedidoSrv.pedidos.clear();
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Compra concluída com sucesso!')),
+              );
+            },
+            child: Icon(Icons.check),
+          ),
+          SizedBox(width: 10),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, 'cardapio');
+            },
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
