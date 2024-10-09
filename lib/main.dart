@@ -19,10 +19,12 @@ void main() {
 
   var srv = getIt<CardapioService>();
   srv.inserirPrato(
-    Cardapio('Haburguer de Carne', 'Tem Carne', 'R\$25,00', 'assets/imagens/hamburguer.png'),
+    Cardapio('Haburguer de Carne', 'Tem Carne', 'R\$25,00',
+        'assets/imagens/hamburguer.png'),
   );
   srv.inserirPrato(
-    Cardapio('Pizza de frango', 'Tem Frango', 'R\$45,00', 'assets/imagens/pizzaf.png'),
+    Cardapio('Pizza de frango', 'Tem Frango', 'R\$45,00',
+        'assets/imagens/pizzaf.png'),
   );
   srv.inserirPrato(
     Cardapio('Coca-Cola', '', 'R\$6,00', ''),
