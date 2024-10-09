@@ -1,8 +1,8 @@
 class Login {
-  final String email;
-  final String senha;
+  String email;
+  String senha;
 
-  Login(
+  Login( 
     this.email,
     this.senha,
   );

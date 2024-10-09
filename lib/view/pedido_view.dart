@@ -60,6 +60,10 @@ class _PedidoViewState extends State<PedidoView> {
           IconButton(
             padding: EdgeInsets.only(right: 30),
             onPressed: () {
+              setState(() {
+                _pedidos.clear();
+                pedidoSrv.pedidos.clear();
+              });
               Navigator.pushReplacementNamed(context, 'login');
             },
             icon: Icon(Icons.logout_sharp, color: Colors.white),

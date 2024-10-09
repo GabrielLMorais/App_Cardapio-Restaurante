@@ -1,8 +1,9 @@
-import 'package:app_cardapio_restaurante/service/login_service.dart';
+import 'package:app_cardapio_restaurante/model/login.dart';
+import 'package:app_cardapio_restaurante/service/usuario_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-final LoginService srv = GetIt.instance<LoginService>();
+final UsuarioService srv = GetIt.instance<UsuarioService>();
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -11,9 +12,11 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
 class _LoginViewState extends State<LoginView> {
+  var _formKey = GlobalKey<FormState>();
+  var ctrlEmail = TextEditingController();
+  var ctrlSenha = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,6 +47,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 SizedBox(height: 16),
                 TextField(
+                  controller: ctrlEmail,
                   decoration: InputDecoration(
                     labelText: 'Email:',
                     border: OutlineInputBorder(),
@@ -64,6 +68,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 SizedBox(height: 16),
                 TextField(
+                  controller: ctrlSenha,
                   decoration: InputDecoration(
                     labelText: 'Senha:',
                     border: OutlineInputBorder(),
@@ -100,7 +105,20 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(height: 25),
                 ElevatedButton(
 		              onPressed: () {
-                    Navigator.pushReplacementNamed(context, 'cardapio');
+                    bool logado = srv.logarUsuario(
+                      Login(
+                        ctrlEmail.text, 
+                        ctrlSenha.text,
+                      )
+                    );
+
+                    if(logado == false){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Usuário não cadastrado!')),
+                      );
+                    }else{
+                      Navigator.pushReplacementNamed(context, 'cardapio');
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purple,

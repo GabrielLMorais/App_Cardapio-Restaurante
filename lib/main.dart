@@ -1,5 +1,6 @@
 import 'package:app_cardapio_restaurante/model/cardapio.dart';
 import 'package:app_cardapio_restaurante/service/cardapio_service.dart';
+import 'package:app_cardapio_restaurante/service/usuario_service.dart';
 import 'package:app_cardapio_restaurante/view/cadastrar_view.dart';
 import 'package:app_cardapio_restaurante/view/cardapio_view.dart';
 import 'package:app_cardapio_restaurante/view/detalhes_view.dart';
@@ -14,6 +15,7 @@ final getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<CardapioService>(CardapioService());
+  GetIt.instance.registerSingleton<UsuarioService>(UsuarioService());
 
   var srv = getIt<CardapioService>();
   srv.inserirPrato(

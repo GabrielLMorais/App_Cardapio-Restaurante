@@ -1,8 +1,10 @@
 import 'package:app_cardapio_restaurante/service/cardapio_service.dart';
+import 'package:app_cardapio_restaurante/service/pedido_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 final CardapioService srv = GetIt.instance<CardapioService>();
+final PedidoService pedidoSrv = PedidoService();
 
 class CardapioView extends StatefulWidget {
   const CardapioView({super.key});
@@ -12,6 +14,14 @@ class CardapioView extends StatefulWidget {
 }
 
 class _CardapioViewState extends State<CardapioView> {
+
+  List<int> _pedidos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _pedidos = srv.retornarPedidosSalvos();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +34,10 @@ class _CardapioViewState extends State<CardapioView> {
           IconButton(
             padding: EdgeInsets.only(right: 30),
             onPressed: () {
+              setState(() {
+                _pedidos.clear();
+                pedidoSrv.pedidos.clear();
+              });
               Navigator.pushReplacementNamed(context, 'login');
             },
             icon: Icon(Icons.logout_sharp, color: Colors.white),

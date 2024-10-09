@@ -14,6 +14,14 @@ class DetalhesView extends StatefulWidget {
 }
 
 class _DetalhesViewState extends State<DetalhesView> {
+  List<int> _pedidos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _pedidos = srv.retornarPedidosSalvos();
+  }
+  
   @override
   Widget build(BuildContext context) {
 
@@ -37,6 +45,10 @@ class _DetalhesViewState extends State<DetalhesView> {
           IconButton(
             padding: EdgeInsets.only(right: 30),
             onPressed: () {
+              setState(() {
+                _pedidos.clear();
+                pedidoSrv.pedidos.clear();
+              });
               Navigator.pushReplacementNamed(context, 'login');
             },
             icon: Icon(Icons.logout_sharp, color: Colors.white),
