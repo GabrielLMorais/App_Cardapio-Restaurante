@@ -14,8 +14,14 @@ class CardapioView extends StatefulWidget {
 }
 
 class _CardapioViewState extends State<CardapioView> {
-
   List<int> _pedidos = [];
+  final List<String> _titulos = [
+    'Lanches',
+    'Pizzas',
+    'Especiais',
+    'Bebidas',
+    'Sobremesas',
+  ];
 
   @override
   void initState() {
@@ -27,7 +33,10 @@ class _CardapioViewState extends State<CardapioView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Level Up Restaurantes', style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Level Up Restaurantes',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.purple,
         automaticallyImplyLeading: false,
         actions: [
@@ -41,7 +50,7 @@ class _CardapioViewState extends State<CardapioView> {
               Navigator.pushReplacementNamed(context, 'login');
             },
             icon: Icon(Icons.logout_sharp, color: Colors.white),
-          ),          
+          ),
         ],
       ),
       backgroundColor: Color.fromRGBO(66, 0, 79, 1),
@@ -50,43 +59,73 @@ class _CardapioViewState extends State<CardapioView> {
         child: ListView.builder(
           itemCount: srv.pratos.length,
           itemBuilder: (context, index) {
-            return Card(
-              margin: EdgeInsets.only(bottom: 10), // Espaçamento entre os cartões
-              child: Row(
+            if (index % 4 == 0) {
+              int tituloIndex = index ~/ 4;
+              String titulo = _titulos.length > tituloIndex
+                  ? _titulos[tituloIndex]
+                  : 'Outros Pratos';
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(14), // Raio superior esquerdo
-                      bottomLeft: Radius.circular(14), // Raio inferior esquerdo
-                    ),
-                  
-                    child: Container(
-                      height: 70,
-                      width: 70,
-                      margin: EdgeInsets.fromLTRB(1, 0, 0, 0), // Remove margens do Container
-                      child: Image.asset(
-                        srv.pratos[index].imagem,
-                        fit: BoxFit.cover,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      titulo,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: ListTile(
-                      title: Text(srv.pratos[index].nome, style: TextStyle(fontSize: 22)),
-                      subtitle: Text(
-                        srv.pratos[index].preco,
-                        style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
-                      ),
-                      onTap: () {
-                        Navigator.pushNamed(context, 'detalhes', arguments: index);
-                      },
-                    ),
-                  ),
+                  _buildCard(index),
                 ],
-              ),
-            );
+              );
+            } else {
+              return _buildCard(index);
+            }
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildCard(int index) {
+    return Card(
+      margin: EdgeInsets.only(bottom: 10),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(14),
+              bottomLeft: Radius.circular(14),
+            ),
+            child: Container(
+              height: 70,
+              width: 70,
+              margin: EdgeInsets.fromLTRB(1, 0, 0, 0),
+              child: Image.asset(
+                srv.pratos[index].imagem,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListTile(
+              title: Text(
+                srv.pratos[index].nome,
+                style: TextStyle(fontSize: 22),
+              ),
+              subtitle: Text(
+                srv.pratos[index].preco,
+                style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, 'detalhes', arguments: index);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

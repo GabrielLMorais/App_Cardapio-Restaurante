@@ -21,7 +21,6 @@ class _CadastrarViewState extends State<CadastrarView> {
 
   @override
   Widget build(BuildContext context) {
-    // Obtém a largura e altura da tela
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
@@ -37,9 +36,9 @@ class _CadastrarViewState extends State<CadastrarView> {
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/imagens/loguinho3.png', // Caminho da sua imagem
-                      height: screenHeight * 0.3, // Altura proporcional
-                      width: screenWidth * 0.8, // Largura proporcional
+                      'assets/imagens/loguinho3.png',
+                      height: screenHeight * 0.3, 
+                      width: screenWidth * 0.8,
                     ),
                     SizedBox(height: 8),
                     Align(
@@ -48,7 +47,7 @@ class _CadastrarViewState extends State<CadastrarView> {
                         'Criar conta',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: screenWidth * 0.08, // Tamanho de fonte proporcional
+                          fontSize: screenWidth * 0.08,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -192,14 +191,14 @@ class _CadastrarViewState extends State<CadastrarView> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.purple,
                             foregroundColor: Colors.white,
-                            minimumSize: Size(screenWidth * 0.8, 50), // Largura proporcional
+                            minimumSize: Size(screenWidth * 0.8, 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                           ),
                           child: Text(
                             'Cadastrar',
-                            style: TextStyle(fontSize: screenWidth * 0.05), // Tamanho de fonte proporcional
+                            style: TextStyle(fontSize: screenWidth * 0.05),
                           ),
                         );
                       },
@@ -212,14 +211,14 @@ class _CadastrarViewState extends State<CadastrarView> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
                         foregroundColor: Colors.white,
-                        minimumSize: Size(screenWidth * 0.8, 50), // Largura proporcional
+                        minimumSize: Size(screenWidth * 0.8, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(6)),
                         ),
                       ),
                       child: Text(
                         'Voltar',
-                        style: TextStyle(fontSize: screenWidth * 0.05), // Tamanho de fonte proporcional
+                        style: TextStyle(fontSize: screenWidth * 0.05),
                       ),
                     ),
                   ],

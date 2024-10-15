@@ -37,7 +37,7 @@ class _PedidoViewState extends State<PedidoView> {
       var pedido = pedidoSrv.pedidos.firstWhere((item) => item.nome == nomePrato);
       pedido.quantidade += quantidade;
       if (pedido.quantidade < 1) {
-        pedido.quantidade = 1; // Impede que a quantidade seja menor que 1
+        pedido.quantidade = 1;
       }
     });
   }
@@ -122,7 +122,7 @@ class _PedidoViewState extends State<PedidoView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Preço: ${prato.preco}', // Preço fixo do prato
+                                  'Preço: ${prato.preco}',
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 Row(

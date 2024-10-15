@@ -28,9 +28,9 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             children: [
               Image.asset(
-                'assets/imagens/loguinho3.png', // Caminho da sua imagem
-                height: 350, // Altura da imagem
-                width: 800, // Largura da imagem
+                'assets/imagens/loguinho3.png',
+                height: 350, 
+                width: 800,
               ),
               SizedBox(height: 8),
               Align(
@@ -52,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
                   border: OutlineInputBorder(),
                   hintText: 'Informe seu e-mail',
                   hintStyle: TextStyle(
-                    color: Colors.grey, // Altere a cor do hintText aqui
+                    color: Colors.grey,
                   ),
                   icon: Icon(Icons.email, color: Colors.white),
                   labelStyle: TextStyle(color: Colors.white),
@@ -85,7 +85,7 @@ class _LoginViewState extends State<LoginView> {
                   border: OutlineInputBorder(),
                   hintText: 'Informe sua senha',
                   hintStyle: TextStyle(
-                    color: Colors.grey, // Altere a cor do hintText aqui
+                    color: Colors.grey,
                   ),
                   icon: Icon(Icons.password, color: Colors.white),
                   labelStyle: TextStyle(color: Colors.white),
@@ -146,7 +146,7 @@ class _LoginViewState extends State<LoginView> {
                   minimumSize: Size(800, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                        Radius.circular(6)), // Remove o border radius
+                        Radius.circular(6)),
                   ),
                 ),
                 child: Text(
@@ -167,7 +167,7 @@ class _LoginViewState extends State<LoginView> {
                   minimumSize: Size(800, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                        Radius.circular(6)), // Remove o border radius
+                        Radius.circular(6)),
                   ),
                 ),
                 child: Text(
